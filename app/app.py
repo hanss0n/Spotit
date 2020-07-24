@@ -1,5 +1,6 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+import json
 
 print('Enter client id:')
 client_id = str(input())
@@ -13,11 +14,5 @@ spotify = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 print("Enter artist URI:")
 playlist_url = input()
 
-results = spotify.artist_albums(playlist_url, album_type='album')
-albums = results['items']
-while results['next']:
-    results = spotify.next(results)
-    albums.extend(results['items'])
-
-for album in albums:
-    print(album['name'])
+results = spotify.playlist(playlist_url)
+print(json.dumps(results, indent=4))

@@ -68,8 +68,6 @@ def rescale_features(features_by_id, time_sig_min, time_sig_max):
 
         rescaled_features = track_features[1]
 
-        print(rescaled_features)
-
         # Rescale the Key, Loudness, Tempo and time_signature features to [0, 1]
         # Key is denoted by standard Pitch Class notation, where -1 is used if no key is detected
         # We alter the current notation, [-1, 11] --> [0, 1]
@@ -93,8 +91,6 @@ def rescale_features(features_by_id, time_sig_min, time_sig_max):
 
         # Save the update values
         features_by_id[track_features[0]] = rescaled_features
-
-        print(features_by_id)
 
     return features_by_id
 

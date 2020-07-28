@@ -26,8 +26,10 @@ def get_scalar_song_features(song_id):
     del filtered_features['duration_ms']
 
     # Rescale the Key, Loudness, Tempo and time_signature features to [0, 1]
-    # TODO: Key
-    filtered_features['key'] = filtered_features['key']
+    # Key is denoted by standard Pitch Class notation, where -1 is used if no key is detected
+    # We alter the current notation, [-1, 11] --> [0, 1]
+    filtered_features['key'] += 1
+    filtered_features['key'] /= 12
 
     # Loudness is previously measured in decibel, in range [-60, 0]. We want [0, 1]
     filtered_features['loudness'] += 60

@@ -39,7 +39,7 @@ def get_scalar_song_features(song_id):
     filtered_features['tempo'] /= 250
 
     # TODO: Time_signature
-    filtered_features['time_signature'] = filtered_features['time_signature']
+    del filtered_features['time_signature']
 
     return filtered_features
 

@@ -1,12 +1,13 @@
-import numpy
+import numpy as np
 
 def distance(track1, track2):
-    return 0
+    return np.linalg.norm(np.array(list(track1.values())) - np.array(list(track2.values())))
 
 def build_graph(features):
     edges = {}
     # Go through each track and find its closest neighbour
     for base_track in features.items():
+        min_dist = float('inf')
         for reference_track in features.items():
             # We don't want to compare it to itself
             if base_track[0] != reference_track[0]:

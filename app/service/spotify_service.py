@@ -92,3 +92,6 @@ def rescale_features(features_by_id, time_sig_min, time_sig_max):
     return features_by_id
 
 
+def get_preview(track_id):
+    return spotify.track(track_id)['preview_url']
+

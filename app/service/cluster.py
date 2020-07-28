@@ -25,3 +25,4 @@ def build_graph(features):
 
 def graph_to_json(edges):
     return json.dumps(edges)
+    

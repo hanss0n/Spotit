@@ -19,20 +19,11 @@ def get_scalar_song_features(song_id):
     # Fetch all of the features of the track
     features = spotify.audio_features(song_id)[0]
 
-    print(type(features))
-    print(features)
-
     # Filter out the non-number attributes
     filtered_features = {attribute: value for (attribute, value) in features.items() if isinstance(value, numbers.Number)}
 
-    print(type(filtered_features))
-    print(filtered_features)
-
     # And discard the duration attribute
     del filtered_features['duration_ms']
-
-    print(type(filtered_features))
-    print(filtered_features)
 
     # Rescale the Key, Loudness, Tempo and time_signature features to [0, 1]
     # TODO: Key

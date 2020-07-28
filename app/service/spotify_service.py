@@ -15,6 +15,41 @@ def get_playlist_id_list(playlist_uri):
     return [track['track']['id'] for track in tracks]
 
 
-# TODO: carefully examine what features we want to include in calculations
 def get_scalar_song_features(song_id):
-    return [feature for feature in spotify.audio_features(song_id)[0].values() if isinstance(feature, numbers.Number)]
+    # Fetch all of the features of the track
+    features = spotify.audio_features(song_id)[0]
+
+    print(type(features))
+    print(features)
+
+    # Filter out the non-number attributes
+    filtered_features = {attribute: value for (attribute, value) in features.items() if isinstance(value, numbers.Number)}
+
+    print(type(filtered_features))
+    print(filtered_features)
+
+    # And discard the duration attribute
+    del filtered_features['duration_ms']
+
+    print(type(filtered_features))
+    print(filtered_features)
+
+    # Rescale the Key, Loudness, Tempo and time_signature features to [0, 1]
+    # TODO: Key
+    filtered_features['key'] = filtered_features['key']
+
+    # Loudness is previously measured in decibel, in range [-60, 0]. We want [0, 1]
+    filtered_features['loudness'] += 60
+    filtered_features['loudness'] /= 60
+
+    # Tempo is measured in BPM. Spotify seems to measure up to 250 BPM, which is why this values is used for scaling
+    filtered_features['tempo'] /= 250
+
+    # TODO: Time_signature
+    filtered_features['time_signature'] = filtered_features['time_signature']
+
+    return filtered_features
+
+
+
+

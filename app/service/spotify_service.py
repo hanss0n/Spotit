@@ -83,11 +83,8 @@ def rescale_features(features_by_id, time_sig_min, time_sig_max):
 
         # Time_signature does not have a set range, and therefore the min and max arguments will be used to decide the range
         # These are based on the min and max values found throughout the entire playlist
-        rescaled_features['time_signature'] -= min
-        rescaled_features['time_signature'] /= (max-min)
-
-
-        del rescaled_features['time_signature']
+        rescaled_features['time_signature'] -= time_sig_min
+        rescaled_features['time_signature'] /= (time_sig_max)
 
         # Save the update values
         features_by_id[track_features[0]] = rescaled_features

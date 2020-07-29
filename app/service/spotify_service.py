@@ -34,12 +34,11 @@ def preprocess_features(track_ids):
     return scaled_features
 
 
-
 def filter_features(features_by_id):
     for track_features in features_by_id.items():
-
         # Filter out the non-number attributes
-        filtered_features = {feature: value for (feature, value) in track_features[1].items() if isinstance(value, numbers.Number)}
+        filtered_features = {feature: value for (feature, value) in track_features[1].items() if
+                             isinstance(value, numbers.Number)}
 
         # And discard the duration attribute
         del filtered_features['duration_ms']
@@ -65,7 +64,6 @@ def get_time_signature_range(features_by_id):
 
 def rescale_features(features_by_id, time_sig_min, time_sig_max):
     for track_features in features_by_id.items():
-
         rescaled_features = track_features[1]
 
         # Rescale the Key, Loudness, Tempo and time_signature features to [0, 1]
@@ -90,5 +88,3 @@ def rescale_features(features_by_id, time_sig_min, time_sig_max):
         features_by_id[track_features[0]] = rescaled_features
 
     return features_by_id
-
-

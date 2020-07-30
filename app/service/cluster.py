@@ -1,6 +1,7 @@
 import numpy as np
 import json
 
+
 def distance(track1, track2):
     return np.linalg.norm(np.array(list(track1.values())) - np.array(list(track2.values())))
 
@@ -18,7 +19,7 @@ def build_graph(features):
                 if min_dist > dist:
                     min_dist = dist
                     min_id = reference_track[0]
-        
+
         edges[base_track[0]] = min_id
     return edges
 

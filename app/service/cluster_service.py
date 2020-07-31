@@ -31,10 +31,10 @@ def __cluster_data_frame(df_songs, df_labels, num_cluster):
     cluster = scaler.transform(cluster)
 
     kmeans = MiniBatchKMeans(n_clusters=num_cluster, init='k-means++', random_state=111)
-    kmeans = kmeans.fit(cluster).labels_
+    kmeans_labels = kmeans.fit(cluster).labels_
     cluster_dict = {cluster_label: [] for cluster_label in range(num_cluster)}
 
-    for song_id, cluster_label in enumerate(kmeans):
+    for song_id, cluster_label in enumerate(kmeans_labels):
         cluster_dict[cluster_label].append(df_labels[song_id])
 
     return cluster_dict

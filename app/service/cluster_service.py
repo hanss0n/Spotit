@@ -20,7 +20,7 @@ def track_to_arr(feature_dict):
 
 def to_data_frame(song_features):
     tracks = []
-    song_list = ss.get_playlist_id_list('spotify:playlist:37i9dQZF1DWTK0zSEQRNUd')
+    song_list = ss.get_playlist_id_list('spotify:playlist:68cbyzto5Sm9aoMgHRatb6')
     song_list = ss.preprocess_features(song_list)
 
     for song in song_list.items():
@@ -41,15 +41,15 @@ def to_data_frame(song_features):
     cluster = scaler.transform(cluster)
     k = 5
 
-    km = MiniBatchKMeans(n_clusters=k, init='k-means++', random_state=123)
+    km = MiniBatchKMeans(n_clusters=k, init='k-means++', random_state=111)
     km = km.fit(cluster).labels_
-    cluster_labels = [[] for i in range(k)]
 
-    for i, j in enumerate(km):
-        cluster_labels[j].append(labels[i])
+    cluster_dict = {cluster_label: [] for cluster_label in range(k)}
 
-    print(cluster_labels)
-    return song_data
+    for song_id, cluster_label in enumerate(km):
+        cluster_dict[cluster_label].append(labels[song_id])
+
+    return cluster_dict
 
 
 def cluster_songs(num_clusters, song_features):
@@ -57,4 +57,4 @@ def cluster_songs(num_clusters, song_features):
 
 
 if __name__ == '__main__':
-    to_data_frame("lololol")
+    print(to_data_frame("lololol"))

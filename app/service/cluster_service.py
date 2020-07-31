@@ -2,6 +2,7 @@ from sklearn.cluster import MiniBatchKMeans
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
 import numpy as np
+import app.service.spotify_service as ss
 
 
 def __track_to_arr(feature_dict, features):
@@ -25,13 +26,13 @@ def __to_data_frame(song_list, cluster_features):
 
 
 def __cluster_data_frame(df_songs, df_labels, num_cluster):
-    df_songs_arr = np.array(df_songs)
+    df_songs = np.array(df_songs)
     std_scaler = StandardScaler()
-    std_scaler.fit(df_songs_arr)
-    df_songs_arr = std_scaler.transform(df_songs_arr)
+    std_scaler.fit(df_songs)
+    df_songs_scaled = std_scaler.transform(df_songs)
 
     kmeans = MiniBatchKMeans(n_clusters=num_cluster, init='k-means++', random_state=111)
-    kmeans_labels = kmeans.fit(df_songs_arr).labels_
+    kmeans_labels = kmeans.fit(df_songs_scaled).labels_
     cluster_dict = {cluster_label: [] for cluster_label in range(num_cluster)}
 
     for song_id, cluster_label in enumerate(kmeans_labels):

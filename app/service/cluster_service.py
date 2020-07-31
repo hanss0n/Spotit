@@ -1,7 +1,5 @@
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.preprocessing import StandardScaler
-
-import app.service.spotify_service as ss
 import pandas as pd
 import numpy as np
 

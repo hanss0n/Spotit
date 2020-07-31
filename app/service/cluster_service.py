@@ -2,7 +2,6 @@ from sklearn.cluster import MiniBatchKMeans
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
 import numpy as np
-import app.service.spotify_service as ss
 
 
 def __track_to_arr(feature_dict, features):

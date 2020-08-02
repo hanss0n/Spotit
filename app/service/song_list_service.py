@@ -10,6 +10,11 @@ def get_cluster_by_list_id(list_id):
     return cluster(song_features, features, 5)
 
 
+def get_json_cluster_by_list_id(list_id):
+    cluster = get_cluster_by_list_id(list_id)
+    json_object = convert_cluster_to_json(cluster)
+    return json_object
+
 def convert_cluster_to_json(cluster):
     tracks = {'track_list': []}
     for track in cluster.items():

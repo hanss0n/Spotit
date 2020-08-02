@@ -12,10 +12,10 @@ def get_cluster_by_list_id(list_id):
 
 def convert_cluster_to_json(cluster):
     tracks = {'track_list': []}
-    for track in cluster:
-        track_info = fetch_track(track['song_id'])
-        track_info['cluster_id'] = track['cluster_id']
+    for track in cluster.items():
+        track_info = fetch_track(track[0])
+        track_info['cluster_id'] = int(track[1])
         tracks['track_list'].append(track_info)
 
-    return json.dumps(tracks)
+    return json.dumps(tracks, indent=4)
 

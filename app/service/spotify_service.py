@@ -30,9 +30,9 @@ def preprocess_features(track_ids):
 
 def filter_features(features_by_id):
     for track_features in features_by_id.items():
-
         # Filter out the non-number attributes
-        filtered_features = {feature: value for (feature, value) in track_features[1].items() if isinstance(value, numbers.Number)}
+        filtered_features = {feature: value for (feature, value) in track_features[1].items() if
+                             isinstance(value, numbers.Number)}
 
         # And discard the unwanted number-attributes
         del filtered_features['duration_ms']
@@ -43,12 +43,12 @@ def filter_features(features_by_id):
         del filtered_features['loudness']
         del filtered_features['valence']
         del filtered_features['tempo']
-        
+
         # Replace the non-filtered attributes
         features_by_id[track_features[0]] = filtered_features
 
     return features_by_id
 
-  
+
 def get_preview(track_id):
     return spotify.track(track_id)['preview_url']

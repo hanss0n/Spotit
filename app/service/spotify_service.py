@@ -42,7 +42,6 @@ def filter_features(features_by_id, features_to_consider):
 
     return features_by_id
 
-
 def rescale_features(features):
     for track_features in features.items():
 
@@ -72,3 +71,6 @@ def rescale_features(features):
 
 def get_preview(track_id):
     return spotify.track(track_id)['preview_url']
+
+def fetch_track(track_id):
+    return spotify.track(track_id)

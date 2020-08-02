@@ -51,5 +51,5 @@ def filter_features(features_by_id):
     return features_by_id
 
 
-def get_preview(track_id):
-    return spotify.track(track_id)['preview_url']
+def fetch_track(track_id):
+    return spotify.track(track_id)

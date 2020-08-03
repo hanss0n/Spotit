@@ -1,6 +1,6 @@
 from unittest import TestCase
 from spotipy import SpotifyException
-from service.spotify_service import get_playlist_id_list, fetch_features
+from service.spotify_service import get_playlist_id_list, fetch_features, filter_features, rescale_features
 
 
 class TestSpotifyService(TestCase):
@@ -28,28 +28,23 @@ class TestSpotifyService(TestCase):
         ids = {'06AKEBrKUckW0KREUWRnvT'}
         features_to_consider = ['acousticness', 'danceability', 'energy', 'instrumentalness', 'speechiness']
         features = fetch_features(ids, features_to_consider)
-        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT']['acousticness'], 0.514)
-        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT']['danceability'], 0.735)
-        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT']['energy'], 0.578)
-        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT']['instrumentalness'], 0.0902)
-        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT']['speechiness'], 0.0461)
+        expected_features = {'06AKEBrKUckW0KREUWRnvT': {'acousticness': 0.514, 'danceability': 0.735, 'energy': 0.578,
+                                                        'instrumentalness': 0.0902, 'speechiness': 0.0461}
+                             }
+        self.assertEqual(features, expected_features)
 
     # Test normal case with 2 ids
     def test_valid_multiple_ids_fetch_features(self):
         ids = {'06AKEBrKUckW0KREUWRnvT', '7ytR5pFWmSjzHJIeQkgog4'}
         features_to_consider = ['acousticness', 'danceability', 'energy', 'instrumentalness', 'speechiness']
         features = fetch_features(ids, features_to_consider)
-        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT']['acousticness'], 0.514)
-        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT']['danceability'], 0.735)
-        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT']['energy'], 0.578)
-        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT']['instrumentalness'], 0.0902)
-        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT']['speechiness'], 0.0461)
 
-        self.assertEqual(features['7ytR5pFWmSjzHJIeQkgog4']['acousticness'], 0.247)
-        self.assertEqual(features['7ytR5pFWmSjzHJIeQkgog4']['danceability'], 0.746)
-        self.assertEqual(features['7ytR5pFWmSjzHJIeQkgog4']['energy'], 0.69)
-        self.assertEqual(features['7ytR5pFWmSjzHJIeQkgog4']['instrumentalness'], 0)
-        self.assertEqual(features['7ytR5pFWmSjzHJIeQkgog4']['speechiness'], 0.164)
+        expected_features = {'06AKEBrKUckW0KREUWRnvT': {'acousticness': 0.514, 'danceability': 0.735, 'energy': 0.578,
+                                                        'instrumentalness': 0.0902, 'speechiness': 0.0461},
+                             '7ytR5pFWmSjzHJIeQkgog4': {'acousticness': 0.247, 'danceability': 0.746, 'energy': 0.69,
+                                                        'instrumentalness': 0, 'speechiness': 0.164}
+                             }
+        self.assertEqual(features, expected_features)
 
     # Test that the only the correct features are considered
     def test_valid_filter_fetch_features(self):
@@ -58,18 +53,17 @@ class TestSpotifyService(TestCase):
         features = fetch_features(ids, features_to_consider)
         self.assertEqual(features['06AKEBrKUckW0KREUWRnvT'].keys(), features_to_consider)
 
-        # Test that all features are scaled between 0-1
-
     # Test that supplying an empty list of features to consider leads to that all numerical features are considered
     def test_valid_empty_filter_fetch_features(self):
         ids = {'06AKEBrKUckW0KREUWRnvT'}
         features_to_consider = {}
         features = fetch_features(ids, features_to_consider)
-        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT'].keys(), {
+        expected_features = {
             'key', 'mode', 'acousticness', 'danceability', 'energy',
             'instrumentalness', 'liveness', 'loudness', 'speechiness',
             'valence', 'tempo'
-        })
+        }
+        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT'].keys(), expected_features)
 
     # Test that all features are scaled between 0-1
     def test_valid_scale_fetch_features(self):
@@ -90,4 +84,107 @@ class TestSpotifyService(TestCase):
         ids = []
         features_to_consider = {'acousticness', 'danceability', 'energy', 'instrumentalness', 'speechiness'}
         self.assertRaises(SpotifyException, fetch_features, ids, features_to_consider)
+
+    # ------------------------------------------------------------------------------------------------------------------
+
+    # Test that the only the correct features are considered
+    def test_valid_filter_filter_features(self):
+        features_by_id = {
+            '06AKEBrKUckW0KREUWRnvT': {'danceability': 0.735, 'energy': 0.578, 'key': 5, 'loudness': -11.84, 'mode': 0,
+                                       'speechiness': 0.0461, 'acousticness': 0.514, 'instrumentalness': 0.0902,
+                                       'liveness': 0.159, 'valence': 0.636, 'tempo': 98.002, 'type': 'audio_features',
+                                       'id': '06AKEBrKUckW0KREUWRnvT', 'uri': 'spotify:track:06AKEBrKUckW0KREUWRnvT',
+                                       'track_href': 'https://api.spotify.com/v1/tracks/06AKEBrKUckW0KREUWRnvT',
+                                       'analysis_url': 'https://api.spotify.com/v1/audio-analysis'
+                                                       '/06AKEBrKUckW0KREUWRnvT',
+                                       'duration_ms': 255349, 'time_signature': 4}
+        }
+        features_to_consider = {'acousticness', 'danceability', 'energy', 'instrumentalness', 'speechiness'}
+        features = filter_features(features_by_id, features_to_consider)
+        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT'].keys(), features_to_consider)
+
+    # Test that all numeric features are considered
+    def test_no_filter_filter_features(self):
+        features_by_id = {
+            '06AKEBrKUckW0KREUWRnvT': {'danceability': 0.735, 'energy': 0.578, 'key': 5, 'loudness': -11.84, 'mode': 0,
+                                       'speechiness': 0.0461, 'acousticness': 0.514, 'instrumentalness': 0.0902,
+                                       'liveness': 0.159, 'valence': 0.636, 'tempo': 98.002, 'type': 'audio_features',
+                                       'id': '06AKEBrKUckW0KREUWRnvT', 'uri': 'spotify:track:06AKEBrKUckW0KREUWRnvT',
+                                       'track_href': 'https://api.spotify.com/v1/tracks/06AKEBrKUckW0KREUWRnvT',
+                                       'analysis_url': 'https://api.spotify.com/v1/audio-analysis'
+                                                       '/06AKEBrKUckW0KREUWRnvT',
+                                       'duration_ms': 255349, 'time_signature': 4}
+        }
+        features_to_consider = {}
+        expected_features = {
+            'key', 'mode', 'acousticness', 'danceability', 'energy',
+            'instrumentalness', 'liveness', 'loudness', 'speechiness',
+            'valence', 'tempo'
+        }
+        features = filter_features(features_by_id, features_to_consider)
+        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT'].keys(), expected_features)
+
+    # Test that duraion_ms is not considered
+    def test_no_duration_filter_features(self):
+        features_by_id = {
+            '06AKEBrKUckW0KREUWRnvT': {'danceability': 0.735, 'energy': 0.578, 'key': 5, 'loudness': -11.84, 'mode': 0,
+                                       'speechiness': 0.0461, 'acousticness': 0.514, 'instrumentalness': 0.0902,
+                                       'liveness': 0.159, 'valence': 0.636, 'tempo': 98.002, 'type': 'audio_features',
+                                       'id': '06AKEBrKUckW0KREUWRnvT', 'uri': 'spotify:track:06AKEBrKUckW0KREUWRnvT',
+                                       'track_href': 'https://api.spotify.com/v1/tracks/06AKEBrKUckW0KREUWRnvT',
+                                       'analysis_url': 'https://api.spotify.com/v1/audio-analysis'
+                                                       '/06AKEBrKUckW0KREUWRnvT',
+                                       'duration_ms': 255349, 'time_signature': 4}
+        }
+        features_to_consider = {'acousticness', 'danceability', 'energy', 'instrumentalness', 'speechiness',
+                                'duration_ms'}
+        expected_features = {'acousticness', 'danceability', 'energy', 'instrumentalness', 'speechiness'}
+        features = filter_features(features_by_id, features_to_consider)
+        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT'].keys(), expected_features)
+
+    # Test that all time_signature is not considered
+    def test_no_time_signature_filter_features(self):
+        features_by_id = {
+            '06AKEBrKUckW0KREUWRnvT': {'danceability': 0.735, 'energy': 0.578, 'key': 5, 'loudness': -11.84, 'mode': 0,
+                                       'speechiness': 0.0461, 'acousticness': 0.514, 'instrumentalness': 0.0902,
+                                       'liveness': 0.159, 'valence': 0.636, 'tempo': 98.002, 'type': 'audio_features',
+                                       'id': '06AKEBrKUckW0KREUWRnvT', 'uri': 'spotify:track:06AKEBrKUckW0KREUWRnvT',
+                                       'track_href': 'https://api.spotify.com/v1/tracks/06AKEBrKUckW0KREUWRnvT',
+                                       'analysis_url': 'https://api.spotify.com/v1/audio-analysis'
+                                                       '/06AKEBrKUckW0KREUWRnvT',
+                                       'duration_ms': 255349, 'time_signature': 4}
+        }
+        features_to_consider = {'acousticness', 'danceability', 'energy', 'instrumentalness', 'speechiness',
+                                'time_signature'}
+        expected_features = {'acousticness', 'danceability', 'energy', 'instrumentalness', 'speechiness'}
+        features = filter_features(features_by_id, features_to_consider)
+        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT'].keys(), expected_features)
+
+    # Test that non-numeric features are not considered
+    def test_no_non_numeric_filter_features(self):
+        features_by_id = {
+            '06AKEBrKUckW0KREUWRnvT': {'danceability': 0.735, 'energy': 0.578, 'key': 5, 'loudness': -11.84, 'mode': 0,
+                                       'speechiness': 0.0461, 'acousticness': 0.514, 'instrumentalness': 0.0902,
+                                       'liveness': 0.159, 'valence': 0.636, 'tempo': 98.002, 'type': 'audio_features',
+                                       'id': '06AKEBrKUckW0KREUWRnvT', 'uri': 'spotify:track:06AKEBrKUckW0KREUWRnvT',
+                                       'track_href': 'https://api.spotify.com/v1/tracks/06AKEBrKUckW0KREUWRnvT',
+                                       'analysis_url': 'https://api.spotify.com/v1/audio-analysis'
+                                                       '/06AKEBrKUckW0KREUWRnvT',
+                                       'duration_ms': 255349, 'time_signature': 4}
+        }
+        features_to_consider = {'acousticness', 'danceability', 'energy', 'instrumentalness', 'speechiness',
+                                'type', 'id', 'uri', 'track_href', 'analysis_url'}
+        expected_features = {'acousticness', 'danceability', 'energy', 'instrumentalness', 'speechiness'}
+        features = filter_features(features_by_id, features_to_consider)
+        self.assertEqual(features['06AKEBrKUckW0KREUWRnvT'].keys(), expected_features)
+
+    # ------------------------------------------------------------------------------------------------------------------
+
+    # Test valid rescaling of key, loudness and tempo
+    def test_valid_rescale_features(self):
+        features = {'06AKEBrKUckW0KREUWRnvT': {'key': 5, 'loudness': -11.84, 'tempo': 98.002}}
+        rescaled_features = rescale_features(features)
+        print(rescaled_features)
+        for value in rescaled_features['06AKEBrKUckW0KREUWRnvT'].values():
+            self.assertTrue(0 <= value <= 1)
 

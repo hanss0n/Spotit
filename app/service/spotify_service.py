@@ -19,28 +19,41 @@ def fetch_features(track_ids, features_to_consider):
     # Fetch the audio features of each track
     features = spotify.audio_features(track_ids)
 
-    # Store by id for simplicity
-    features_by_track_id = {features[i]['id']: features[i] for i in range(len(features))}
+    # Check that there are any elements fetched, otherwise raise an exception
+    if any(features):
+        # Store by id for simplicity
+        features_by_track_id = {features[i]['id']: features[i] for i in range(len(features))}
 
-    # Filter out unwanted features
-    filtered_features_by_id = filter_features(features_by_track_id, features_to_consider)
+        # Filter out unwanted features
+        filtered_features_by_id = filter_features(features_by_track_id, features_to_consider)
 
-    # Rescale the Key, Loudness and Tempo features to [0, 1], if they are considered
-    scaled_features = rescale_features(filtered_features_by_id)
+        # Rescale the Key, Loudness and Tempo features to [0, 1], if they are considered
+        scaled_features = rescale_features(filtered_features_by_id)
 
-    return scaled_features
+        return scaled_features
+    else:
+        raise spotipy.SpotifyException(404, -1, 'Invalid Track Id')
 
 
 def filter_features(features_by_id, features_to_consider):
     for track_features in features_by_id.items():
         # Filter out the unwanted features
+        # If features_to_consider is empty, all numerical features will be used (except time_signature and duration)
         filtered_features = {feature: value for (feature, value) in track_features[1].items() if
-                             isinstance(value, numbers.Number) and feature in features_to_consider}
+                             isinstance(value, numbers.Number) and
+                             (feature in features_to_consider or not bool(features_to_consider))}
+
+        # Neither duration_ms nor time_signature will be considered
+        if 'time_signature' in filtered_features:
+            del filtered_features['time_signature']
+        if 'duration_ms' in filtered_features:
+            del filtered_features['duration_ms']
 
         # Replace the non-filtered features
         features_by_id[track_features[0]] = filtered_features
 
     return features_by_id
+
 
 def rescale_features(features):
     for track_features in features.items():
@@ -71,6 +84,7 @@ def rescale_features(features):
 
 def get_preview(track_id):
     return spotify.track(track_id)['preview_url']
+
 
 def fetch_track(track_id):
     return spotify.track(track_id)

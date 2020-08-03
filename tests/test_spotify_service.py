@@ -184,7 +184,15 @@ class TestSpotifyService(TestCase):
     def test_valid_rescale_features(self):
         features = {'06AKEBrKUckW0KREUWRnvT': {'key': 5, 'loudness': -11.84, 'tempo': 98.002}}
         rescaled_features = rescale_features(features)
-        print(rescaled_features)
         for value in rescaled_features['06AKEBrKUckW0KREUWRnvT'].values():
             self.assertTrue(0 <= value <= 1)
 
+    # Test rescaling when none of key, loudness or tempo are used. This should not raise an error
+    def test_valid_no_rescale_features(self):
+        features = {'06AKEBrKUckW0KREUWRnvT': {'acousticness': 0.514, 'danceability': 0.735, 'energy': 0.578,
+                                               'instrumentalness': 0.0902, 'speechiness': 0.0461}
+                    }
+        try:
+            rescale_features(features)
+        except KeyError:
+            self.fail('rescaled_feature() raised a KeyError unexpectedly')

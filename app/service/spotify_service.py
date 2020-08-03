@@ -82,9 +82,5 @@ def rescale_features(features):
     return features
 
 
-def get_preview(track_id):
-    return spotify.track(track_id)['preview_url']
-
-
 def fetch_track(track_id):
     return spotify.track(track_id)

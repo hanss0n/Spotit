@@ -1,25 +1,26 @@
 from unittest import TestCase
 from spotipy import SpotifyException
-from service.spotify_service import get_playlist_id_list, fetch_features, filter_features, rescale_features
+from service.spotify_service import get_tracks_by_list_id, fetch_features, filter_features, rescale_features
 
 
 class TestSpotifyService(TestCase):
 
     # Test normal case for fetching all song_ids from a playlist
-    def test_valid_get_playlist_id_list(self):
+    def test_valid_get_tracks_by_list_id(self):
         test_list_uri = 'spotify:playlist:2OE6T7SwseiNXoBGk0Pcmx'
-        song_ids = set(get_playlist_id_list(test_list_uri))
+        track_list = get_tracks_by_list_id(test_list_uri)
         expected_ids = {'7ytR5pFWmSjzHJIeQkgog4', '1xQ6trAsedVPCdbtDAmk0c', '0VjIjW4GlUZAMYd2vXMi3b',
                         '6UelLqGlWMcVH1E5c4H7lY', '24Yi9hE78yPEbZ4kxyoXAI'}
-        self.assertEqual(song_ids, expected_ids)
+        fetched_ids = set([track['track']['id'] for track in track_list])
+        self.assertEqual(fetched_ids, expected_ids)
 
     # Test exception on bad uri
     def test_error_bad_uri_get_playlist_id_list(self):
-        self.assertRaises(SpotifyException, get_playlist_id_list, 'asdasdg')
+        self.assertRaises(SpotifyException, get_tracks_by_list_id, 'asdasdg')
 
     # Test exception on empty uri
     def test_error_empty_uri_get_playlist_id_list(self):
-        self.assertRaises(SpotifyException, get_playlist_id_list, '')
+        self.assertRaises(SpotifyException, get_tracks_by_list_id, '')
 
     # ------------------------------------------------------------------------------------------------------------------
 

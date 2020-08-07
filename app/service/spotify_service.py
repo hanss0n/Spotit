@@ -10,9 +10,10 @@ client_credentials_manager = SpotifyClientCredentials(client_id, client_secret)
 spotify = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 
-def get_playlist_id_list(playlist_uri):
-    tracks = spotify.playlist_tracks(playlist_uri, fields='items.track.id')['items']
-    return [track['track']['id'] for track in tracks]
+def get_tracks_by_list_id(playlist_uri):
+    return spotify.playlist_tracks(playlist_uri, fields='items.track.id, items.track.name, '
+                                                        'items.track.preview_url, '
+                                                        'items.track.artists.name')['items']
 
 
 def fetch_features(track_ids, features_to_consider):

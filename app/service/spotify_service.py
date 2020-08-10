@@ -38,12 +38,14 @@ def fetch_features(track_ids, features_to_consider):
 
 
 def filter_features(features_by_id, features_to_consider):
+    if not bool(features_to_consider):
+        features_to_consider = ['acousticness', 'danceability', 'energy', 'instrumentalness', 'speechiness']
+
     for track_features in features_by_id.items():
         # Filter out the unwanted features
         # If features_to_consider is empty, all numerical features will be used (except time_signature and duration)
         filtered_features = {feature: value for (feature, value) in track_features[1].items() if
-                             isinstance(value, numbers.Number) and
-                             (feature in features_to_consider or not bool(features_to_consider))}
+                             isinstance(value, numbers.Number) and feature in features_to_consider}
 
         # Neither duration_ms nor time_signature will be considered
         if 'time_signature' in filtered_features:

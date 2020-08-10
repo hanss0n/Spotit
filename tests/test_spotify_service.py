@@ -59,11 +59,7 @@ class TestSpotifyService(TestCase):
         ids = {'06AKEBrKUckW0KREUWRnvT'}
         features_to_consider = {}
         features = fetch_features(ids, features_to_consider)
-        expected_features = {
-            'key', 'mode', 'acousticness', 'danceability', 'energy',
-            'instrumentalness', 'liveness', 'loudness', 'speechiness',
-            'valence', 'tempo'
-        }
+        expected_features = {'acousticness', 'danceability', 'energy', 'instrumentalness', 'speechiness'}
         self.assertEqual(features['06AKEBrKUckW0KREUWRnvT'].keys(), expected_features)
 
     # Test that all features are scaled between 0-1
@@ -117,11 +113,7 @@ class TestSpotifyService(TestCase):
                                        'duration_ms': 255349, 'time_signature': 4}
         }
         features_to_consider = {}
-        expected_features = {
-            'key', 'mode', 'acousticness', 'danceability', 'energy',
-            'instrumentalness', 'liveness', 'loudness', 'speechiness',
-            'valence', 'tempo'
-        }
+        expected_features = {'acousticness', 'danceability', 'energy', 'instrumentalness', 'speechiness'}
         features = filter_features(features_by_id, features_to_consider)
         self.assertEqual(features['06AKEBrKUckW0KREUWRnvT'].keys(), expected_features)
 

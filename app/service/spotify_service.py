@@ -14,7 +14,8 @@ def get_tracks_by_list_id(playlist_uri):
     return spotify.playlist_tracks(playlist_uri, fields='items.track.id, items.track.name, '
                                                         'items.track.preview_url, '
                                                         'items.track.artists.name,'
-                                                        'items.track.external_urls.spotify')['items']
+                                                        'items.track.external_urls.spotify,'
+                                                        'items.track.album.images')['items']
 
 
 def fetch_features(track_ids, features_to_consider):

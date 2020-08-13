@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
-from app.controller.song_list_controller import song_list
+from clustrify.app.controller.song_list_controller import song_list
 
 app = Flask(__name__)
 CORS(app)

@@ -33,3 +33,17 @@ export SPOTIPY_CLIENT_SECRET=client_secret_here
 
 // on Windows, use `SET` instead of `export`
 ```
+**Note that it is SpotiPy with a P, not the regular F**
+
+#### Run the Clustrify backend
+Last but not least, let's run the acutal application! First we need to add the Clustrify directory to our ``$PYTHONPATH``:
+```
+export PYTHONPATH=${PYTHONPATH}:${PWD}
+```
+**Note that this should be ran in the top, Clustrify directory**
+
+Finally, the backend can be setup:
+```
+python3 app/run.py
+```
+

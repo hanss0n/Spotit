@@ -1,5 +1,5 @@
-from app.service.cluster_service import cluster
-from app.service.spotify_service import get_tracks_by_list_id, fetch_features, fetch_track
+from clustrify.app.service.cluster_service import cluster
+from clustrify.app.service.spotify_service import get_tracks_by_list_id, fetch_features
 import json
 
 

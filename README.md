@@ -47,3 +47,18 @@ Finally, the backend can be setup:
 python3 app/run.py
 ```
 
+### Demo
+So, now that the Clustrify backend is up and running, let's make sure that it is working. In the file ``song_list_controller.py``, you can find all the endpoints that are defined. For simplicty's sake, let's do this via the use of `Postman`, an application that let's you make HTTP requests easily. 
+
+Pick the `POST` option, and supply the adress for the backend. Both the IP-adress and port should have been made available to you in the terminal when you started up the application. Then click the `Body` header, followed by `text` (depending on version, it might be `raw`), and finally, choose `JSON`. In the textbox appearing below, enter:
+```
+{
+    "list_uri": "playlist_uri",
+    "num_clusters" : "5",
+    "attributes": ["acousticness", "danceability", "energy", "instrumentalness", "speechiness"]
+}
+```
+
+To get the ``playlist_uri``, you can open up `Spotify`, rightclick on a playlist, choose `Share` and finally `Copy Spotify URI`. It should take a form similar to `spotify:playlist:59ZbFPES4DQwEjBpWHzrtC`. 
+
+If all of this is done correctly, you will receive a JSON response containing information of all the trakcs in the choosen playlist, as well as some information detailing which cluster it belongs to. 

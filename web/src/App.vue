@@ -28,7 +28,7 @@
         methods: {
             getSongData(params) {
                 this.num_clusters = params["num_clusters"]
-                axios.post('https://clustrify-2arzmeuymq-lz.a.run.app/spotify_list/', params)
+                axios.post('http://0.0.0.0:8080/spotify_list/', params)
                     .then(x => this.song_data = x.data)
                     .catch(e => console.log(e))
             }

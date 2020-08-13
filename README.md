@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-In order to run this application, you will need python installed, as well as the following libraries:
+In order to run this application, you will need python3 installed, as well as the following libraries:
 * Flask - [installation link](https://pypi.org/project/Flask/)
 * Flask_cors - [installation link](https://pypi.org/project/Flask-Cors/1.10.3/)
 * Spotipy - [installation link](https://pypi.org/project/spotipy/)
@@ -20,11 +20,13 @@ In order to run this application, you will need python installed, as well as the
 
 All of these can be installed via the package installer pip.
 
+### Installing
+
 #### Spotipy
 
 In order for the requests to the Spotify API to be valid, you also need to set up an account on their developer website. You have to create a Spotify application, with a Spotify Client ID, as well as a Spotify Client Secret. Instructions for this can be found on this [link](https://developer.spotify.com/dashboard/). 
 
-Once this is properly setup, you will need to add both of these keys as variables for your environment:
+We use the Spotipy lirary to access the API, for which you will need to add both of these keys to your environment:
 ```
 export SPOTIPY_CLIENT_ID=client_id_here
 export SPOTIPY_CLIENT_SECRET=client_secret_here

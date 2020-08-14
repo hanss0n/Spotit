@@ -4,7 +4,13 @@ Clustrify allows Spotify users to group their playlists into clusters depending 
 
 
 # [TRY IT HERE](https://hanss0n.github.io/Clustrify/)
+1.  Copy a spotify playlist url/uri, for instance: `https://open.spotify.com/playlist/1VAN3ouvQGhuGkgDdldSoi?si=oFsRrXV4T8avGKvKp9bInQ`
 
+2. Paste the link into the Spotify list URI/URL field at the top
+
+3. Press the Clustrify button and wait for a few seconds
+
+4. Profit!
 
 ## Getting Started - Backend
 

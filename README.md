@@ -43,15 +43,33 @@ We also have to setup the `PYTHONPATH` by adding the Clustrify directory to it:
 export PYTHONPATH=${PYTHONPATH}:${PWD}
 ```
 
-## Deployment - Backend
-Finally, the backend can be deployed:
+## Getting Started - Frontend
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
+### Prerequisites
+
+In order to run this application, you will need to have `nodejs`, along with its package manager `npm`, installed.
+
+### Installing
+Make your way into the `web` folder and proceed with the following commands.
+
+Install all the dependencies:
 ```
-python3 app/run.py
+npm install
+```
+
+## Deployment
+
+### Backend
+Deploy the backend:
+```
+python3 clustrify/app/run.py
 ```
 **Note that this should be ran in the top, Clustrify directory**
 
 
-### Demo 
+#### Demo
 So, now that the Clustrify backend is up and running, let's make sure that it is working. In the file ``song_list_controller.py``, you can find all the endpoints that are defined. For simplicty's sake, let's do this via the use of `Postman`, an application that let's you make HTTP requests easily. 
 
 Pick the `POST` option, and supply the adress for the backend. Both the IP-adress and port should have been made available to you in the terminal when you started up the application. Then click the `Body` header, followed by `text` (depending on version, it might be `raw`), and finally, choose `JSON`. In the textbox appearing below, enter:
@@ -66,3 +84,13 @@ Pick the `POST` option, and supply the adress for the backend. Both the IP-adres
 To get the ``playlist_uri``, you can open up `Spotify`, rightclick on a playlist, choose `Share` and finally `Copy Spotify URI`. It should take a form similar to `spotify:playlist:59ZbFPES4DQwEjBpWHzrtC`. 
 
 If all of this is done correctly, you will receive a JSON response containing information of all the trakcs in the choosen playlist, as well as some information detailing which cluster it belongs to. 
+
+### Frontend
+Deploy the frontend:
+```
+npm run serve
+```
+**Note that this should be ran in the `web` directory**
+
+#### Demo
+Deploying the frontend will give you a url where you can view the application. Open you browser and open it up. On this page you will be able to try out the Clustrify application! Open up Spotify, and find one of your playlists. Rightclick it, choose `Share` followed by `Copy Spotify URI`. Paste the URI into the text field, and the press `Clustrify!`.

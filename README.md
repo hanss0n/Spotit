@@ -1,9 +1,9 @@
 # Clustrify
 
-# [TRY IT HERE](https://hanss0n.github.io/Clustrify/)
+Clustrify allows Spotify users to group their playlists into clusters depending on the euclidian distance of the attributes of the songs. This allows for an easier way of identifying which tracks in a playlist may suit your taste, without the need for spending countless hours listening through every song manually. It does this via the use of the [Spotify Web API](https://developer.spotify.com/documentation/web-api/).
 
-Clustrify allows Spotify users to group their playlists into clusters depending on the euclidian distance of the attributes of the songs. 
-Thus, songs with similar attributes will be grouped together. This is especially useful if you're only interested in a specific type of music and don't want to listen through hours of playlists just to find the songs that suit your taste. 
+
+# [TRY IT HERE](https://hanss0n.github.io/Clustrify/)
 
 
 ## Getting Started - Backend

@@ -6,7 +6,7 @@ Clustrify allows Spotify users to group their playlists into clusters depending 
 Thus, songs with similar attributes will be grouped together. This is especially useful if you're only interested in a specific type of music and don't want to listen through hours of playlists just to find the songs that suit your taste. 
 
 
-## Getting Started
+## Getting Started - Backend
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
@@ -37,19 +37,21 @@ export SPOTIPY_CLIENT_SECRET=client_secret_here
 ```
 **Note that it is SpotiPy with a P, not the regular F**
 
-#### Run the Clustrify backend
-Last but not least, let's run the acutal application! First we need to add the Clustrify directory to our ``$PYTHONPATH``:
+#### Setup `$PYTHONPATH`
+We also have to setup the `PYTHONPATH` by adding the Clustrify directory to it: 
 ```
 export PYTHONPATH=${PYTHONPATH}:${PWD}
 ```
+
+## Deployment - Backend
+Finally, the backend can be deployed:
+```
+python3 app/run.py
+```
 **Note that this should be ran in the top, Clustrify directory**
 
-Finally, the backend can be setup:
-```
-python3 clustrify/app/run.py
-```
 
-### Demo
+### Demo 
 So, now that the Clustrify backend is up and running, let's make sure that it is working. In the file ``song_list_controller.py``, you can find all the endpoints that are defined. For simplicty's sake, let's do this via the use of `Postman`, an application that let's you make HTTP requests easily. 
 
 Pick the `POST` option, and supply the adress for the backend. Both the IP-adress and port should have been made available to you in the terminal when you started up the application. Then click the `Body` header, followed by `text` (depending on version, it might be `raw`), and finally, choose `JSON`. In the textbox appearing below, enter:

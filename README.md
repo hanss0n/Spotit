@@ -100,3 +100,8 @@ npm run serve
 
 #### Demo
 Deploying the frontend will give you a url where you can view the application. Open you browser and open it up. On this page you will be able to try out the Clustrify application! Open up Spotify, and find one of your playlists. Rightclick it, choose `Share` followed by `Copy Spotify URI`. Paste the URI into the text field, and the press `Clustrify!`.
+
+## Authors
+
+* **Björn Hansson** - [hanss0n](https://github.com/hanss0n)
+* **Felix Luthman** - [felixlut](https://github.com/felixlut/)

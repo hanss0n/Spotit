@@ -36,7 +36,7 @@ All of these can be installed via the package installer pip.
 
 In order for the requests to the Spotify API to be valid, you also need to set up an account on their developer website. You have to create a Spotify application, with a Spotify Client ID, as well as a Spotify Client Secret. Instructions for this can be found on this [link](https://developer.spotify.com/dashboard/). 
 
-We use the Spotipy lirary to access the API, for which you will need to add both of these keys to your environment:
+We use the Spotipy library to access the API, for which you will need to add both of these keys to your environment:
 ```
 export SPOTIPY_CLIENT_ID=client_id_here
 export SPOTIPY_CLIENT_SECRET=client_secret_here

@@ -8,7 +8,7 @@ Clustrify allows Spotify users to group their playlists into clusters depending 
 
 2. Paste the link into the Spotify list URI/URL field at the top
 
-3. Press the Clustrify button and wait for a few seconds
+3. Press the Clustrify! button and wait for a few seconds
 
 4. Profit!
 

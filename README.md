@@ -46,7 +46,7 @@ export PYTHONPATH=${PYTHONPATH}:${PWD}
 
 Finally, the backend can be setup:
 ```
-python3 app/run.py
+python3 clustrify/app/run.py
 ```
 
 ### Demo

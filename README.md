@@ -12,6 +12,8 @@ Clustrify allows Spotify users to group their playlists into clusters depending 
 
 4. Profit!
 
+![Example](https://i.imgur.com/SRGK9Up.png)
+
 ## Getting Started - Backend
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
